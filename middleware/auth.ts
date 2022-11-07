@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { config } from "dotenv";
 import { Logger } from "../utils/logger";
 import { sendWarningEmail } from "../utils/email";
+import api_keys from "../api-keys.json";
 
 config();
 
@@ -9,7 +10,7 @@ const logger = new Logger({
   log_type: "warning",
 });
 
-const API_KEYS = JSON.parse(process.env.API_KEYS || `{"porfolio": "test"}`);
+const API_KEYS = api_keys;
 
 export const checkAPIKey = (
   req: Request,
