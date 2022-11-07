@@ -1,6 +1,5 @@
 import Express from "express";
 import { config } from "dotenv";
-import cors from "cors";
 import NLURouter from "./routes/nlu";
 import ChatRouter from "./routes/chat";
 import { train } from "./nlu/index";
@@ -11,10 +10,6 @@ config();
 train();
 
 const app = Express();
-
-const origins = process.env.ORIGINS?.split(",") || [];
-
-app.use(cors({ origin: origins }));
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
