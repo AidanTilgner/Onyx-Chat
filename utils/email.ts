@@ -50,9 +50,14 @@ const warningLogger = new Logger({
 
 export const sendWarningEmail = async (message: string) => {
   try {
+    const { NODE_ENV } = process.env;
+    if (NODE_ENV === "development") {
+      console.log("Warning email not sent in development mode");
+      return;
+    }
     const info = await sendEmail({
       to: MAIL_TO,
-      subject: "Warning",
+      subject: "Warning from Onyx Chat",
       html: `
         <h2 style="color:red">Warning From Onyx Chat:</h2>
         <p>${message}</p>

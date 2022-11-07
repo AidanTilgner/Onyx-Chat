@@ -9,7 +9,7 @@ const logger = new Logger({
   log_type: "warning",
 });
 
-const API_KEYS = JSON.parse(process.env.API_KEYS || `[{"porfolio": "test"}]"`);
+const API_KEYS = JSON.parse(process.env.API_KEYS || `{"porfolio": "test"}`);
 
 export const checkAPIKey = (
   req: Request,
@@ -20,18 +20,41 @@ export const checkAPIKey = (
     req.headers["x-api-key"] ||
     req.query["x-api-key"] ||
     req.headers["authorization"]?.split(" ")?.[1];
+
   if (!key) {
-    res.status(401).send({ message: "No API key provided" });
-    sendWarningEmail("An unauthorized request was made");
-    logger.log("An unauthorized request was made");
+    res.status(401).send({ message: "No API key provided." });
+    sendWarningEmail("A request was made without an API key.");
+    logger.log("A request was made without an API key.");
     return;
   }
-  const keyObj = API_KEYS.find((k: any) => k.key === key);
-  if (!keyObj) {
+
+  const service: string =
+    (req.headers["x-service"] as string) || (req.query["x-service"] as string);
+
+  if (!service) {
+    res.status(401).send({
+      message: "No service specified. Please specify request origin service.",
+    });
+    sendWarningEmail("A request was made without a service specified.");
+    logger.log("A request was made without a service specified.");
+    return;
+  }
+
+  const expectedKey = API_KEYS[service];
+
+  if (!expectedKey) {
+    res.status(401).send({ message: "Invalid service provided." });
+    sendWarningEmail("A request was made with an invalid service");
+    logger.log("A request was made with an invalid service.");
+    return;
+  }
+
+  if (!(expectedKey === key)) {
     logger.log("Invalid API key provided");
-    sendWarningEmail("Invalid API key provided");
-    res.status(401).send({ message: "Invalid API key provided" });
+    sendWarningEmail("A request was made with an invalid API key.");
+    res.status(401).send({ message: "Invalid API key provided." });
     return;
   }
+
   next();
 };
