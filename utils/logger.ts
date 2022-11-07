@@ -3,9 +3,8 @@ import { writeFileSync } from "fs";
 type logTypes = "info" | "error" | "warning" | "debug" | "analytics";
 
 export class Logger {
-  private log_file_path: string = "storage/logs.txt";
-
   private log_type: logTypes = "info";
+  private log_file_path: string = "storage/logs/logs.txt";
 
   constructor({
     log_file_path,
@@ -14,15 +13,15 @@ export class Logger {
     log_file_path?: string;
     log_type?: logTypes;
   }) {
-    this.log_file_path = log_file_path || this.log_file_path;
     this.log_type = log_type || this.log_type;
+    this.log_file_path = log_file_path || this.log_file_path;
   }
 
   public log(message: string) {
     const date = new Date();
     const log_message = `[${
       this.log_type
-    }] - ${date.toISOString()} - ${message}`;
+    }] - ${date.toLocaleString()} - ${message}`;
     writeFileSync(this.log_file_path, log_message + "\n", {
       flag: "a",
     });
