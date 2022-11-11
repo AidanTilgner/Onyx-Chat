@@ -1,0 +1,21 @@
+{
+  "None": {
+    "responses": [
+      {
+        "text": "Sorry, I don't understand"
+      }
+    ]
+  },
+  "greeting": {
+    "hello": {
+      "responses": [
+        {
+          "text": "hey there {{ name }}",
+          "variables": {
+            "name": "session.client.user.name"
+          }
+        }
+      ]
+    }
+  }
+}

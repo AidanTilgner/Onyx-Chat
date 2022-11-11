@@ -1,0 +1,17 @@
+[
+  {
+    "lang": "en",
+    "text": "Hello",
+    "intent": "greeting.hello"
+  },
+  {
+    "lang": "en",
+    "text": "Hi",
+    "intent": "greeting.hello"
+  },
+  {
+    "lang": "en",
+    "text": "Good morning",
+    "intent": "greeting.hello"
+  }
+]
