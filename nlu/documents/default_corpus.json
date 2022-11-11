@@ -1,6 +1,7 @@
 {
   "name": "Default Corpus",
   "locale": "en-US",
+  "contextData": "nlu/documents/heros.json",
   "data": [
     {
       "intent": "agent.birthday",
@@ -16,6 +17,27 @@
         "I'm young. I'm not sure of my birth date",
         "I don't know my birth date. Most virtual agents are young, though, like me."
       ]
+    },
+    {
+      "intent": "hero.realname",
+      "utterances": ["what is the real name of @hero"],
+      "answers": [
+        "{{ hero }}'s real name is {{ _data[entities.hero.option].realName }}"
+      ]
+    },
+    {
+      "intent": "describe.time",
+      "utterances": ["The time is @time", "It is @time"],
+      "answers": ["The time is {{ entities.time.value }}"]
     }
-  ]
+  ],
+  "entities": {
+    "hero": {
+      "options": {
+        "spiderman": ["spiderman", "spider-man"],
+        "ironman": ["ironman", "iron-man"],
+        "thor": ["thor", "thor odinson"]
+      }
+    }
+  }
 }

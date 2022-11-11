@@ -1,4 +1,5 @@
 import { dockStart } from "@nlpjs/basic";
+import { BuiltinCompromise } from "@nlpjs/builtin-compromise";
 
 export let manager;
 
@@ -6,14 +7,29 @@ export const train = async () => {
   const dock = await dockStart({
     settings: {
       nlp: {
-        corpora: ["nlu/documents/default_corpus.json"],
+        corpora: ["./nlu/documents/default_corpus.json"],
       },
     },
     use: ["Basic"],
   });
   // Add the NLU here
   const nlp = dock.get("nlp");
-  //   await nlp.addCorpus("./nlu/documents/default_corpus.json");
+  const ner = dock.get("ner");
+  const builtin = new BuiltinCompromise({
+    enable: [
+      "hashtags",
+      "person",
+      "place",
+      "organization",
+      "email",
+      "phonenumber",
+      "date",
+      "url",
+      "number",
+      "dimension",
+    ],
+  });
+  ner.container.register("extract-builtin-??", builtin, true);
   await nlp.train();
   manager = nlp;
   return nlp;
