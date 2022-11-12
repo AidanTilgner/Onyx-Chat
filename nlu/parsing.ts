@@ -16,7 +16,7 @@ export const parseResponsesFromIntent = async (
 
   const { responses } = intent.reduce((acc, curr) => {
     return acc[curr];
-  }, intent_to_response);\
+  }, intent_to_response);
 
   return responses;
 };
