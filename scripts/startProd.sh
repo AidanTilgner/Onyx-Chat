@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ./scripts/helpers.sh --source-only
+
 red='\e[0;31m'
 blue='\033[0;34m'
 
