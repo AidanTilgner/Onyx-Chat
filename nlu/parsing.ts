@@ -16,7 +16,7 @@ export const parseResponsesFromIntent = async (
 
   const { responses } = intent.reduce((acc, curr) => {
     return acc[curr];
-  }, intent_to_response);
+  }, intent_to_response);\
 
   return responses;
 };
@@ -69,18 +69,25 @@ export const getVariableValue = async (
   switch (type) {
     case "session":
       value = path.reduce((acc, curr) => {
-        return acc[curr];
+        if (acc) {
+          return acc[curr];
+        }
       }, session);
       break;
     case "context":
       value = path.reduce((acc, curr) => {
-        return acc[curr];
+        // make sure it's not undefined
+        if (acc) {
+          return acc[curr];
+        }
       }, context);
       break;
     default:
       const ctx = getContext(type);
       const ctxVal = path.reduce((acc, curr) => {
-        return acc[curr];
+        if (acc) {
+          return acc[curr];
+        }
       }, ctx);
       value = ctxVal || null;
       break;

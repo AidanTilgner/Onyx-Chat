@@ -10,10 +10,29 @@
     "hello": {
       "responses": [
         {
-          "text": "hey there {{ name }}",
-          "variables": {
-            "name": "session.client.user.name"
-          }
+          "text": "Hey, how are you? My name's Onyx. What's yours?"
+        },
+        {
+          "text": "Hi, I'm Onyx. What's your name?"
+        },
+        {
+          "text": "Hello, I'm Onyx. What's your name?"
+        }
+      ]
+    },
+    "name": {
+      "responses": [
+        {
+          "text": "Nice to meet you!"
+        }
+      ]
+    }
+  },
+  "inquiry": {
+    "why_hire": {
+      "responses": [
+        {
+          "text": "I'm a passionate web developer with a strong background in design and development. I have an excellent understanding of the web development process and I'm always looking for ways to improve my skills."
         }
       ]
     }

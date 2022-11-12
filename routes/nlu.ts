@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getNLUResponse } from "../nlu";
+import { getFullNLUResponse } from "../nlu";
 import { createSession } from "../nlu/session";
 
 const router = Router();
@@ -11,9 +11,10 @@ router.post("/say", async (req, res) => {
     req.query.session_id ||
     req.headers["x-session_id"] ||
     (await createSession());
-  const response = await getNLUResponse(text, session_id);
+  const response = await getFullNLUResponse(text, session_id);
   const toSend = {
     response,
+    session_id,
   };
   res.send(toSend);
 });

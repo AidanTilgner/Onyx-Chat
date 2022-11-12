@@ -1,5 +1,6 @@
 import context_json from "./documents/context.json";
 import { v4 as uuidv4 } from "uuid";
+import { ConversationContext } from "node-nlp";
 
 export interface Context {
   me?: User;
