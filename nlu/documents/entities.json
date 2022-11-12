@@ -1,0 +1,44 @@
+{
+  "food": {
+    "options": [
+      { "name": "pizza", "langs": ["en"], "examples": ["pizza"] },
+      {
+        "name": "pasta",
+        "langs": ["en"],
+        "examples": ["pasta", "spaghetti", "lasagna"]
+      }
+    ],
+    "context": {
+      "pizza": {
+        "toppings": ["pepperoni", "sausage", "mushrooms"]
+      },
+      "pasta": {
+        "sauce": ["marinara", "alfredo"]
+      }
+    }
+  },
+  "hero": {
+    "options": [
+      {
+        "name": "batman",
+        "langs": ["en"],
+        "examples": ["batman", "bruce wayne", "dark knight"]
+      },
+      {
+        "name": "superman",
+        "langs": ["en"],
+        "examples": ["superman", "clark kent", "man of steel"]
+      }
+    ],
+    "context": {
+      "batman": {
+        "name": "Bruce Wayne",
+        "age": 30
+      },
+      "superman": {
+        "name": "Clark Kent",
+        "age": 35
+      }
+    }
+  }
+}

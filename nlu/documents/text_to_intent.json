@@ -1,0 +1,45 @@
+[
+  {
+    "lang": "en",
+    "text": "Hello",
+    "intent": "greeting.hello"
+  },
+  {
+    "lang": "en",
+    "text": "Hi",
+    "intent": "greeting.hello"
+  },
+  {
+    "lang": "en",
+    "text": "Good morning",
+    "intent": "greeting.hello"
+  },
+  {
+    "text": "My name is %name%",
+    "intent": "greeting.name"
+  },
+  {
+    "text": "I'm %name%",
+    "intent": "greeting.name"
+  },
+  {
+    "text": "Hello, my name is %name%",
+    "intent": "greeting.name"
+  },
+  {
+    "text": "Why should I hire you?",
+    "intent": "inquiry.why_hire"
+  },
+  {
+    "text": "What should I know about you?",
+    "intent": "inquiry.why_hire"
+  },
+  {
+    "text": "What are your strengths?",
+    "intent": "inquiry.why_hire"
+  },
+  {
+    "text": "What are your weaknesses?",
+    "intent": "inquiry.why_hire"
+  }
+]

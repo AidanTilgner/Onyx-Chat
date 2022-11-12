@@ -12,7 +12,8 @@ export const logIP = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const logSession = (req: Request, res: Response, next: NextFunction) => {
-  const session_id = req.body.session_id || req.query.session_id;
+  const session_id =
+    req.body.session_id || req.query.session_id || req.headers["x-session_id"];
   anaylisLogger.analytics(`request from session: ${session_id}`);
   next();
 };
