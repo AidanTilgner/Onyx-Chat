@@ -4,7 +4,7 @@ module.exports = {
   apps: [
     {
       name: "onyx-chat",
-      script: "npm run start",
+      script: "npm run start:prod",
     },
   ],
 };
