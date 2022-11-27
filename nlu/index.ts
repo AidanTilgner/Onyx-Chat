@@ -19,6 +19,11 @@ export const train = async () => {
   return nlp;
 };
 
+export const retrain = async () => {
+  await train();
+  return manager;
+};
+
 export const getRawResponse = async (text: string) => {
   const response = await manager.process("en", text);
   return response;

@@ -12,7 +12,8 @@ router.post("/", async (req, res) => {
     res.status(402).send({ message: "No message provided" });
     return;
   }
-  const session_id = req.body.session_id || req.query.session_id;
+  const session_id =
+    req.body.session_id || req.query.session_id || req.headers["x-session_id"];
   if (!session_id) {
     res.status(402).send({ message: "No session_id provided" });
     return;

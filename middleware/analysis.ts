@@ -6,7 +6,7 @@ const anaylisLogger = new Logger({
 });
 
 export const logIP = (req: Request, res: Response, next: NextFunction) => {
-  const ip = req.headers["x-forwarded-for"] || req.ip;
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   anaylisLogger.analytics(`request from ip: ${ip}`);
   next();
 };
