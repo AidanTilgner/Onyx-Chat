@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getNLUResponse } from "../nlu";
 import { logSession } from "../middleware/analysis";
+import { config } from "dotenv";
 
 const router = Router();
 

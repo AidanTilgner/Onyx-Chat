@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NLU Portal</title>
+    <title>Onyx Chat Training</title>
     <link rel="stylesheet" href="./styles/main/main.css" />
     <link rel="stylesheet" href="./styles/components/components.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -12,41 +12,24 @@
   <body>
     <nav class="navbar">
       <h2 class="navbar__title">Onyx Chat</h2>
-      <ul class="navbar__items">
-        <li class="navbar__item">
-          <a href="index.html" class="navbar__link active">Home</a>
-        </li>
-        <li class="navbar__item">
-          <a href="./pages/examples.html" class="navbar__link">Examples</a>
-        </li>
-        <li class="navbar__item">
-          <a href="./pages/actions.html" class="navbar__link">Actions</a>
-        </li>
-      </ul>
+      <ul class="navbar__items"></ul>
     </nav>
     <main class="content">
       <section>
         <h1 class="title">Interactive Training</h1>
         <p class="warning">
-          This feature is not meant to be used in development mode. The server
-          will detect an update and retrain the model every time the training
-          data updates. This causes a full server reload every time you make an
-          update.
+          This feature is only meant for development mode. It will only appear
+          if NODE_ENV is set to "development". This is for security reasons and
+          should not be bypassed.
         </p>
         <p>
           Here you can test the model with the text input below. Simply type
           something, press enter, and you'll get a response in the text box. You
-          can then edit the expected intent for the text. Or if you think a
-          different action should map to the intent given, you can edit that
-          too. Finally, if you think a response doesn't fit, or another one
-          should be added to an action, you can edit that too.
+          will then be allowed to train the model with the response you gave.
+          This will help the model learn how to respond to the input you gave.
         </p>
-        <span class="tip"
-          >Tip: Check the other list views before changing actions or
-          intents</span
-        >
         <div class="stage" id="output-stage">
-          <div class="input-group">
+          <div class="input-button-group">
             <input
               type="text"
               placeholder="Type something..."
@@ -56,26 +39,67 @@
             <button type="button" id="testing-submit">Send</button>
           </div>
           <div class="output-box" id="testing-output"></div>
-          <div class="output-properties" id="testing-properties">
-            <div
-              class="output-property"
-              id="testing-intent-container"
-              data-state="intent"
-            >
-              <span id="testing-intent"></span>
-              <div class="icons">
-                <i
-                  class="material-symbols-outlined primary"
-                  title="Edit intent for this text"
-                  id="edit-intent"
-                  >edit</i
-                >
-              </div>
+          <div class="testing-form" id="testing-form">
+            <div class="input-group">
+              <label for="intent-input">Intent</label>
+              <input type="text" id="intent-input" readonly />
             </div>
+          </div>
+          <div class="buttons">
+            <button type="button" class="btn btn-secondary" id="add-response">
+              Add or Edit Responses
+            </button>
+            <button type="button" class="btn btn-primary" id="start-edit">
+              Edit
+            </button>
+            <!-- <button type="button" class="btn btn-primary" id="confirm-test">
+              Confirm
+            </button> -->
           </div>
         </div>
       </section>
     </main>
+    <div class="modal" id="edit-modal" style="display: none">
+      <div class="modal-content">
+        <div class="input-group">
+          <label for="edit-text">When I say...</label>
+          <input type="text" id="edit-text" placeholder="Example text" />
+        </div>
+        <br />
+        <div class="input-group">
+          <label for="edit-intent">My intent is...</label>
+          <input type="text" id="edit-intent" placeholder="Intent" />
+        </div>
+        <div class="buttons fullwidth">
+          <button type="button" class="btn btn-danger" id="cancel-edit">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary" id="submit-edit">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="responses-modal" style="display: none">
+      <div class="modal-content">
+        <h3 style="font-weight: 400">Current Responses</h3>
+        <ul class="current-responses" id="current-responses"></ul>
+        <br />
+        <br />
+        <div class="input-group">
+          <label for="response-input">Add Response</label>
+          <input type="text" id="response-input" placeholder="Response" />
+        </div>
+        <div class="buttons fullwidth">
+          <button type="button" class="btn btn-danger" id="cancel-responses">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" id="submit-responses">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
     <script type="module" src="./scripts/main.js"></script>
     <script type="module" src="./scripts/home.js"></script>
   </body>

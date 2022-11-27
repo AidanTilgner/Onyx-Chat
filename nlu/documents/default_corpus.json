@@ -8,10 +8,17 @@
       "answers": [
         "Hi! How can I help you?",
         "Hello, how can I help you?",
+        "Hey there, how can I help you?",
         "Hi, how are you?",
-        "Hey there, how can I help you?"
+        "Hey, how are you?"
       ]
     },
-    { "intent": "new", "utterances": ["new", "new"], "answers": ["new", "new"] }
+    {
+      "intent": "new",
+      "utterances": ["new", "new"],
+      "answers": ["new", "new"]
+    },
+    { "intent": "inquiry.current_state", "utterances": ["how are you?"] },
+    { "intent": "walla", "utterances": ["walla"] }
   ]
 }

@@ -11,12 +11,17 @@ const logger = new Logger({
 });
 
 const API_KEYS = api_keys;
+const isDev = process.env.NODE_ENV === "development";
 
 export const checkAPIKey = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  if (isDev) {
+    next();
+    return;
+  }
   const key =
     req.headers["x-api-key"] ||
     req.query["x-api-key"] ||

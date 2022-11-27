@@ -1,5 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import { Logger } from "../utils/logger";
+import { config } from "dotenv";
+
+config();
+
+const isDev = process.env.NODE_ENV === "development";
 
 const anaylisLogger = new Logger({
   log_file_path: "storage/analytics/analysis.txt",

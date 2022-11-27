@@ -30,3 +30,54 @@ export const addData = async (data: {
 
   return newCorpus;
 };
+
+export const addResponseToIntent = async (intent: string, response: string) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.answers.push(response);
+  } else {
+    corpusData.push({
+      intent,
+      utterances: [],
+      answers: [response],
+    });
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  return newCorpus;
+};
+
+export const removeResponseFromIntent = async (
+  intent: string,
+  response: string
+) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.answers = existingIntent.answers.filter(
+      (item) => item !== response
+    );
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  return newCorpus;
+};

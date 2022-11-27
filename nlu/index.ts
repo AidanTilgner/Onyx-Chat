@@ -1,4 +1,5 @@
 import { dockStart } from "@nlpjs/basic";
+import { writeIntentsToFile } from "./metadata";
 
 export let manager;
 
@@ -16,12 +17,18 @@ export const train = async () => {
   //   await nlp.addCorpus("./nlu/documents/default_corpus.json");
   await nlp.train();
   manager = nlp;
+  writeIntentsToFile();
   return nlp;
 };
 
 export const retrain = async () => {
-  await train();
-  return manager;
+  try {
+    await train();
+    return 1;
+  } catch (err) {
+    console.error(err);
+    return 0;
+  }
 };
 
 export const getRawResponse = async (text: string) => {
