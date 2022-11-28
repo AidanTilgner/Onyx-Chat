@@ -40,7 +40,7 @@ export const extractButtons = (text: string) => {
     return { type, metadata: parsed };
   });
 
-  return buttonData.filter((button) => button.type);
+  return buttonData ? buttonData.filter((button) => button.type) : [];
 };
 
 export const filterAttachments = (text: string) => {

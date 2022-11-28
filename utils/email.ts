@@ -48,7 +48,7 @@ const warningLogger = new Logger({
   log_type: "warning",
 });
 
-export const sendWarningEmail = async (message: string) => {
+export const sendWarningEmail = async (message: string, other: any) => {
   try {
     const { NODE_ENV } = process.env;
     if (NODE_ENV === "development") {
@@ -61,6 +61,9 @@ export const sendWarningEmail = async (message: string) => {
       html: `
         <h2 style="color:red">Warning From Onyx Chat:</h2>
         <p>${message}</p>
+        <hr />
+        <h4>Other Info:</h4>
+        <p>${JSON.stringify(other)}</p>
       `,
     });
     if (info) {

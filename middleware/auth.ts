@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import { Logger } from "../utils/logger";
 import { sendWarningEmail } from "../utils/email";
 import api_keys from "../api-keys.json";
+import { getRequesterInfo } from "../utils/analysis";
 
 config();
 
@@ -29,7 +30,10 @@ export const checkAPIKey = (
 
   if (!key) {
     res.status(401).send({ message: "No API key provided." });
-    sendWarningEmail("A request was made without an API key.");
+    sendWarningEmail(
+      "A request was made without an API key.",
+      getRequesterInfo(req)
+    );
     logger.log("A request was made without an API key.");
     return;
   }
@@ -41,7 +45,10 @@ export const checkAPIKey = (
     res.status(401).send({
       message: "No service specified. Please specify request origin service.",
     });
-    sendWarningEmail("A request was made without a service specified.");
+    sendWarningEmail(
+      "A request was made without a service specified.",
+      getRequesterInfo(req)
+    );
     logger.log("A request was made without a service specified.");
     return;
   }
@@ -50,14 +57,20 @@ export const checkAPIKey = (
 
   if (!expectedKey) {
     res.status(401).send({ message: "Invalid service provided." });
-    sendWarningEmail("A request was made with an invalid service");
+    sendWarningEmail(
+      "A request was made with an invalid service",
+      getRequesterInfo(req)
+    );
     logger.log("A request was made with an invalid service.");
     return;
   }
 
   if (!(expectedKey === key)) {
     logger.log("Invalid API key provided");
-    sendWarningEmail("A request was made with an invalid API key.");
+    sendWarningEmail(
+      "A request was made with an invalid API key.",
+      getRequesterInfo(req)
+    );
     res.status(401).send({ message: "Invalid API key provided." });
     return;
   }
