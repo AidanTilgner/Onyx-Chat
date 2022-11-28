@@ -45,7 +45,7 @@
       "intent": "inquiry.contact_directly",
       "utterances": ["I want to talk to Aidan"],
       "answers": [
-        "Of course, follow this link to contact me directly! <a href=\"https://www.aidantilgner.dev/contact\">Contact me</a>."
+        "Of course, follow this link to contact me directly! <a href=\"https://www.aidantilgner.dev/contact\">Contact me</a>. << __button.contact_me __metadata{text:hello,other:test} >>"
       ]
     }
   ]
