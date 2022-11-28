@@ -36,3 +36,8 @@ export const extractButtons = (text: string) => {
 
   return buttonData;
 };
+
+export const filterAttachments = (text: string) => {
+  // anything inside a << >> should be removed
+  return text.replace(/<<.*?>>/g, "").trim();
+};
