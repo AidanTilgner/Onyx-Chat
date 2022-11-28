@@ -1,5 +1,5 @@
 export const extractAttachments = async (text: string) => {
-  if(!text) return {};
+  if (!text) return {};
   const linkData = extractLinks(text);
   const buttons = extractButtons(text);
   return {
@@ -24,6 +24,7 @@ export const extractButtons = (text: string) => {
   // match << __button.<button_type> >> in text
   const buttons = text.match(/<<\s*__button\.(.*?)\s*>>/g);
   const buttonData = buttons?.map((button) => {
+    console.log("Found button: ", button);
     // might have more data in __metadata{key: value} format
     const metadata = button.match(/__metadata\{(.*?)\}/)?.[1];
     const parsed = metadata?.split(",").reduce((acc, curr) => {
@@ -31,11 +32,15 @@ export const extractButtons = (text: string) => {
       return { ...acc, [key]: value };
     }, {});
     // type should only be the text immediately after __button. and before __metadata
-    const type = button.match(/__button\.(.*?) __metadata/)?.[1];
+    const type = (
+      metadata
+        ? button.match(/__button\.(.*?) __metadata/)?.[1]
+        : button.match(/__button\.(.*?)>>/)?.[1]
+    ).trim();
     return { type, metadata: parsed };
   });
 
-  return buttonData;
+  return buttonData.filter((button) => button.type);
 };
 
 export const filterAttachments = (text: string) => {
