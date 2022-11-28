@@ -1,6 +1,8 @@
 [
   "greeting.hello",
-  "new",
   "inquiry.current_state",
-  "walla"
+  "inquire.work_history",
+  "inquiry.current_workplace",
+  "inquiry.work_experience",
+  "inquiry.contact_directly"
 ]

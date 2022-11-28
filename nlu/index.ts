@@ -1,5 +1,6 @@
 import { dockStart } from "@nlpjs/basic";
 import { writeIntentsToFile } from "./metadata";
+import { extractAttachments } from "./attachments";
 
 export let manager;
 
@@ -41,5 +42,6 @@ export const getNLUResponse = async (text: string) => {
   const intent = response.intent;
   const entities = response.entities;
   const answer = response.answer;
-  return { intent, entities, answer };
+  const attachments = await extractAttachments(answer);
+  return { intent, entities, answer, attachments };
 };

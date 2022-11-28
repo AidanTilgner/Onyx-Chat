@@ -36,7 +36,9 @@ export const addResponseToIntent = async (intent: string, response: string) => {
 
   const existingIntent = corpusData.find((item) => item.intent === intent);
   if (existingIntent) {
-    existingIntent.answers.push(response);
+    existingIntent.answers
+      ? existingIntent.answers.push(response)
+      : (existingIntent.answers = [response]);
   } else {
     corpusData.push({
       intent,

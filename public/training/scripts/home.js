@@ -24,7 +24,7 @@ const ResponseInput = document.getElementById("response-input");
 
 const displayOutput = (bool) => {
   if (bool) {
-    TestingOutput.style.display = "flex";
+    TestingOutput.style.display = "initial";
   } else {
     TestingOutput.style.display = "none";
   }
@@ -50,7 +50,7 @@ const updateModel = async () => {
       .post("/training/retrain")
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setAlert("There was an error training the model", "danger");
       });
 
@@ -60,10 +60,9 @@ const updateModel = async () => {
       setAlert(message, "success");
     }
 
-    console.log("Trained model:", trainedbool);
     return trainedbool;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     setAlert("Error updating model, check console for more info.", "danger");
     return false;
   }
@@ -92,22 +91,23 @@ const getNLUForInput = async () => {
         return res.data;
       })
       .catch((err) => {
-        console.log("Error:", err);
+        console.error("Error:", err);
         setAlert(
           "Error getting chat response, check console for more info.",
           "danger"
         );
       });
 
+    console.info("NLU Response:", nlu);
+
     TestingOutput.innerHTML = nlu.answer;
     TestingIntent.value = nlu.intent;
-    console.log("NLU:", nlu);
 
     displayOutput(true);
     displayInputs(true);
     return nlu;
   } catch (err) {
-    console.log("Error:", err);
+    console.error("Error:", err);
     setAlert(
       "Error getting NLU response, check console for more info.",
       "danger"
@@ -142,7 +142,7 @@ SubmitEdit.addEventListener("click", async () => {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setAlert("There was an error editing the example", "danger");
       });
 
@@ -152,10 +152,9 @@ SubmitEdit.addEventListener("click", async () => {
       TestingIntent.value = Intent.value;
     }
 
-    console.log("Edited example:", data);
     return data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     setAlert("Error editing example, check console for more info.", "danger");
     return false;
   } finally {
@@ -169,14 +168,13 @@ const getDataForIntent = async (intent) => {
       .get(`/training/intent/${intent}`)
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setAlert("There was an error getting responses", "danger");
       });
 
-    console.log("Data:", data);
     return data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     setAlert("Error getting responses, check console for more info.", "danger");
     return [];
   }
@@ -185,12 +183,13 @@ const getDataForIntent = async (intent) => {
 AddResponse.addEventListener("click", async () => {
   ResponsesModal.style.display = "flex";
   const { answers } = await getDataForIntent(TestingIntent.value);
-  console.log("responses:", answers);
 
-  answers.forEach((res) => {
-    const newEl = makeResponseElement(res);
-    CurrentResponses.appendChild(newEl);
-  });
+  if (answers) {
+    answers.forEach((res) => {
+      const newEl = makeResponseElement(res);
+      CurrentResponses.appendChild(newEl);
+    });
+  }
 });
 
 const makeResponseElement = (response) => {
@@ -227,7 +226,7 @@ const removeResponse = async (response) => {
     })
     .then((res) => res.data)
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       setAlert("There was an error removing the response", "danger");
     });
 
@@ -236,13 +235,13 @@ const removeResponse = async (response) => {
     updateModel();
   }
 
-  console.log("Removed response:", response);
   return success;
 };
 
 CancelResponses.addEventListener("click", () => {
   ResponsesModal.style.display = "none";
   CurrentResponses.innerHTML = "";
+  ResponseInput.value = "";
 });
 
 SubmitResponses.addEventListener("click", async () => {
@@ -254,7 +253,7 @@ SubmitResponses.addEventListener("click", async () => {
     })
     .then((res) => res.data)
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       setAlert("There was an error adding the response", "danger");
     });
 
@@ -263,8 +262,8 @@ SubmitResponses.addEventListener("click", async () => {
     updateModel();
     const newEl = makeResponseElement(ResponseInput.value);
     CurrentResponses.appendChild(newEl);
+    ResponseInput.value = "";
   }
 
-  console.log("Added response:", ResponseInput.value);
   return success;
 });

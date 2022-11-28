@@ -14,11 +14,39 @@
       ]
     },
     {
-      "intent": "new",
-      "utterances": ["new", "new"],
-      "answers": ["new", "new"]
+      "intent": "inquiry.current_state",
+      "utterances": ["how are you?"],
+      "answers": ["I'm great, thanks for asking!"]
     },
-    { "intent": "inquiry.current_state", "utterances": ["how are you?"] },
-    { "intent": "walla", "utterances": ["walla"] }
+    {
+      "intent": "inquire.work_history",
+      "utterances": ["What is your work history?"],
+      "answers": [
+        "Of course! Almost 2 years ago I graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that I did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. I eventually accepted a full-time position at  <a href=\"https://digital-strata.com/\">Digital Strata</a>, where I am currently employed as a web developer."
+      ]
+    },
+    {
+      "intent": "inquiry.current_workplace",
+      "utterances": ["Where do you currently work?"],
+      "answers": [
+        "I currently work at a company called <a href=\"https://digital-strata.com/\">Digital Strata</a> as a full-stack web developer.",
+        "My current job is at <a href=\"https://digital-strata.com/\">Digital Strata</a> as a web developer."
+      ]
+    },
+    {
+      "intent": "inquiry.work_experience",
+      "utterances": ["How much experience do you have?"],
+      "answers": [
+        "As a web developer, around 2 years, as a yo-yoer, around 6 months. I'm better at one than the other :)",
+        "I've worked as a software developer around 2 years. I also put hours into side <a href=\"https://www.aidantilgner.dev/projects\">projects</a> in order to hone my skills. See my <a href=\"https://github.com/AidanTilgner\">GitHub</a> for more details."
+      ]
+    },
+    {
+      "intent": "inquiry.contact_directly",
+      "utterances": ["I want to talk to Aidan"],
+      "answers": [
+        "Of course, follow this link to contact me directly! <a href=\"https://www.aidantilgner.dev/contact\">Contact me</a>."
+      ]
+    }
   ]
 }

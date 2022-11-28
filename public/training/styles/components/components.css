@@ -66,9 +66,11 @@
   font-family: "QuickSand", sans-serif;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
+  box-shadow: 0.2px 0.2px 24px 0 rgba(0, 0, 0, 0.15);
 }
 .btn:hover {
   border-radius: 0;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary {
@@ -132,6 +134,20 @@
   font-family: "Quicksand", sans-serif;
 }
 .input-group input:focus {
+  outline: none;
+  border: 1px solid #2256f2;
+}
+.input-group textarea {
+  box-sizing: border-box;
+  padding: 14px;
+  height: 100px;
+  width: 100%;
+  border: 1px solid #eaeaea;
+  border-radius: 0;
+  font-size: 16px;
+  font-family: "Quicksand", sans-serif;
+}
+.input-group textarea:focus {
   outline: none;
   border: 1px solid #2256f2;
 }
