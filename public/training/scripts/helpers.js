@@ -1,3 +1,5 @@
+import { setAlert } from "./display.js";
+
 export const getLevenshteinDistance = (a, b) => {
   if (a.length === 0) {
     return b.length;
@@ -36,4 +38,13 @@ export const getLevenshteinDistance = (a, b) => {
   }
 
   return matrix[b.length][a.length];
+};
+
+export const copyToClipboard = (str) => {
+  // use clipboard api if available
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(str);
+    setAlert("Copied to clipboard", "success");
+    return;
+  }
 };

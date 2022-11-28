@@ -5,7 +5,7 @@ import {
 } from "../nlu/training";
 import { Router } from "express";
 import { retrain } from "../nlu";
-import { getDataForIntent } from "../nlu/metadata";
+import { getDataForIntent, getIntents } from "../nlu/metadata";
 
 const router = Router();
 
@@ -68,6 +68,15 @@ router.put("/response", (req, res) => {
     data,
   };
 
+  res.send(toSend);
+});
+
+router.get("/intents", async (req, res) => {
+  const intents = getIntents();
+  const toSend = {
+    message: "Got intents",
+    intents,
+  };
   res.send(toSend);
 });
 

@@ -1,4 +1,6 @@
 import { setAlert } from "./display.js";
+import { getLevenshteinDistance, copyToClipboard } from "./helpers.js";
+
 const TestingInput = document.getElementById("testing-input");
 const TestingSubmit = document.getElementById("testing-submit");
 const TestingOutput = document.getElementById("testing-output");
@@ -6,7 +8,7 @@ const TestingForm = document.getElementById("testing-form");
 const TestingIntent = document.getElementById("intent-input");
 const AddResponse = document.getElementById("add-response");
 const StartEdit = document.getElementById("start-edit");
-// const ConfirmTest = document.getElementById("confirm-test");
+const ConfirmTest = document.getElementById("confirm-test");
 
 // * edit modal stuff
 const EditModal = document.getElementById("edit-modal");
@@ -36,10 +38,12 @@ const displayInputs = (bool) => {
     TestingForm.style.display = "none";
     StartEdit.style.display = "none";
     AddResponse.style.display = "none";
+    ConfirmTest.style.display = "none";
   } else {
     TestingForm.style.display = "block";
     StartEdit.style.display = "block";
     AddResponse.style.display = "block";
+    ConfirmTest.style.display = "block";
   }
 };
 displayInputs(false);
@@ -68,6 +72,26 @@ const updateModel = async () => {
   }
 };
 updateModel();
+
+const getIntents = async () => {
+  try {
+    const { intents } = await axios
+      .get("/training/intents")
+      .then((res) => res.data)
+      .catch((err) => {
+        console.error(err);
+        setAlert("There was an error getting intents", "danger");
+      });
+
+    return intents;
+  } catch (err) {
+    console.error(err);
+    setAlert("Error getting intents, check console for more info.", "danger");
+    return [];
+  }
+};
+
+let fetchedIntents = await getIntents();
 
 const getNLUForInput = async () => {
   try {
@@ -150,6 +174,7 @@ SubmitEdit.addEventListener("click", async () => {
       setAlert(message, "success");
       updateModel();
       TestingIntent.value = Intent.value;
+      fetchedIntents = await getIntents();
     }
 
     return data;
@@ -159,6 +184,34 @@ SubmitEdit.addEventListener("click", async () => {
     return false;
   } finally {
     EditModal.style.display = "none";
+  }
+});
+
+ConfirmTest.addEventListener("click", async () => {
+  try {
+    const { data, message } = await axios
+      .post("/training/datapoint", {
+        intent: TestingIntent.value,
+        utterances: [TestingInput.value],
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.error(err);
+        setAlert("There was an error editing the example", "danger");
+      });
+
+    if (data) {
+      setAlert(message, "success");
+      updateModel();
+      TestingIntent.value = Intent.value;
+      fetchedIntents = await getIntents();
+    }
+
+    return data;
+  } catch (err) {
+    console.error(err);
+    setAlert("Error editing example, check console for more info.", "danger");
+    return false;
   }
 });
 
@@ -202,6 +255,12 @@ const makeResponseElement = (response) => {
   const i = document.createElement("i");
   i.classList.add("material-symbols-outlined", "delete", "remove-response");
   i.innerText = "delete";
+  i.title = "Delete Response";
+
+  const copy = document.createElement("i");
+  copy.classList.add("material-symbols-outlined", "copy", "copy-response");
+  copy.innerText = "content_copy";
+  copy.title = "Copy to clipboard";
 
   li.appendChild(span);
   li.appendChild(i);
@@ -210,6 +269,11 @@ const makeResponseElement = (response) => {
     if (res) {
       CurrentResponses.removeChild(li);
     }
+  });
+
+  li.appendChild(copy);
+  copy.addEventListener("click", () => {
+    copyToClipboard(response);
   });
 
   return li;
@@ -266,4 +330,39 @@ SubmitResponses.addEventListener("click", async () => {
   }
 
   return success;
+});
+
+Intent.addEventListener("keyup", async (event) => {
+  const intents = fetchedIntents || (await getIntents());
+  // get first 3 intents sorted by levenstein distance compared to the input
+  // use getLevenshteinDistance to compare
+  const closeIntents = intents
+    .map((intent) => ({
+      intent,
+      distance: getLevenshteinDistance(intent, Intent.value),
+    }))
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, 3)
+    .map((intent) => intent.intent);
+
+  document.querySelector(".intent-suggestions")?.remove();
+  const el = document.createElement("div");
+  el.classList.add("intent-suggestions");
+
+  closeIntents.forEach((intent) => {
+    const span = document.createElement("span");
+    span.classList.add("intent-suggestions__item");
+    span.innerText = intent;
+    span.addEventListener("click", () => {
+      Intent.value = intent;
+      el.remove();
+    });
+    el.appendChild(span);
+  });
+
+  if (event.key === "Enter") {
+    el.remove();
+  }
+
+  Intent.parentElement.appendChild(el);
 });

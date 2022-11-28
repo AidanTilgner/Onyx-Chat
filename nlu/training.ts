@@ -13,8 +13,8 @@ export const addData = async (data: {
     (intent) => intent.intent === data.intent
   );
   if (existingIntent) {
-    existingIntent.utterances.push(...data.utterances);
-    existingIntent.answers.push(...data.answers);
+    existingIntent.utterances.push(...(data.utterances || []));
+    existingIntent.answers.push(...(data.answers || []));
   } else {
     corpusData.push(data);
   }

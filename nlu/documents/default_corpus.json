@@ -19,7 +19,7 @@
       "answers": ["I'm great, thanks for asking!"]
     },
     {
-      "intent": "inquire.work_history",
+      "intent": "inquiry.work_history",
       "utterances": ["What is your work history?"],
       "answers": [
         "Of course! Almost 2 years ago I graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that I did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. I eventually accepted a full-time position at  <a href=\"https://digital-strata.com/\">Digital Strata</a>, where I am currently employed as a web developer."
@@ -43,9 +43,13 @@
     },
     {
       "intent": "inquiry.contact_directly",
-      "utterances": ["I want to talk to Aidan"],
+      "utterances": [
+        "I want to talk to Aidan",
+        "Contact directly",
+        "I want to speak directly"
+      ],
       "answers": [
-        "Of course, follow this link to contact me directly! <a href=\"https://www.aidantilgner.dev/contact\">Contact me</a>. << __button.contact_me __metadata{text:hello,other:test} >>"
+        "Of course! Click <a href=\"/contact\">here</a> to contact me directly. << __button.contact_me >>"
       ]
     }
   ]

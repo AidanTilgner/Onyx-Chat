@@ -1,4 +1,5 @@
 export const extractAttachments = async (text: string) => {
+  if(!text) return {};
   const linkData = extractLinks(text);
   const buttons = extractButtons(text);
   return {
