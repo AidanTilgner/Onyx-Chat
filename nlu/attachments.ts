@@ -24,7 +24,6 @@ export const extractButtons = (text: string) => {
   // match << __button.<button_type> >> in text
   const buttons = text.match(/<<\s*__button\.(.*?)\s*>>/g);
   const buttonData = buttons?.map((button) => {
-    console.log("Found button: ", button);
     // might have more data in __metadata{key: value} format
     const metadata = button.match(/__metadata\{(.*?)\}/)?.[1];
     const parsed = metadata?.split(",").reduce((acc, curr) => {
