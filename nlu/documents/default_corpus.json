@@ -50,6 +50,17 @@
       ],
       "answers": [
         "Of course! Click <a href=\"/contact\">here</a> to contact me directly. << __button.contact_me >>"
+      ],
+      "triggers": [
+        {
+          "type": "notify.user",
+          "args": [
+            {
+              "user": "aidan.tilgner",
+              "message": "Someone wants to talk to you!"
+            }
+          ]
+        }
       ]
     }
   ]

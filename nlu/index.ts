@@ -1,5 +1,5 @@
 import { dockStart } from "@nlpjs/basic";
-import { writeIntentsToFile } from "./metadata";
+import { generateMetadata } from "./metadata";
 import { extractAttachments, filterAttachments } from "./attachments";
 
 export let manager;
@@ -18,7 +18,7 @@ export const train = async () => {
   //   await nlp.addCorpus("./nlu/documents/default_corpus.json");
   await nlp.train();
   manager = nlp;
-  writeIntentsToFile();
+  generateMetadata();
   return nlp;
 };
 
