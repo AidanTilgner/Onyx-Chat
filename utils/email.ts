@@ -46,6 +46,7 @@ export async function sendEmail({
 
 const warningLogger = new Logger({
   log_type: "warning",
+  name: "email",
 });
 
 export const sendWarningEmail = async (message: string, other: any) => {

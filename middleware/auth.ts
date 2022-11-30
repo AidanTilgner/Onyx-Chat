@@ -9,6 +9,7 @@ config();
 
 const logger = new Logger({
   log_type: "warning",
+  name: "authentication",
 });
 
 const API_KEYS = api_keys;

@@ -1,0 +1,13 @@
+{
+  "inquiry.contact_directly": [
+    {
+      "type": "notify.user",
+      "args": [
+        {
+          "user": "aidan.tilgner",
+          "message": "Someone wants to talk to you!"
+        }
+      ]
+    }
+  ]
+}

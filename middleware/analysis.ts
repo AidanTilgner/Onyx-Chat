@@ -8,6 +8,7 @@ const isDev = process.env.NODE_ENV === "development";
 
 const anaylisLogger = new Logger({
   log_file_path: "storage/analytics/analysis.txt",
+  name: "analysis",
 });
 
 export const logIP = (req: Request, res: Response, next: NextFunction) => {

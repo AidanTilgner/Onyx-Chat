@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { getNLUResponse } from "../nlu";
 import { logSession } from "../middleware/analysis";
+import { detectAndActivateTriggers } from "../nlu/triggers";
 import { config } from "dotenv";
 
+config();
 const router = Router();
 
 router.use(logSession);
@@ -20,6 +22,8 @@ router.post("/", async (req, res) => {
     return;
   }
   const response = await getNLUResponse(message);
+  const { intent } = response;
+  detectAndActivateTriggers(intent);
   const toSend = {
     message,
     session_id,
