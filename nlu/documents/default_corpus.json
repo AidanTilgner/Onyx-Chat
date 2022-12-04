@@ -53,7 +53,7 @@
       ],
       "triggers": [
         {
-          "type": "notify.user",
+          "type": "notifications.specific_user",
           "args": {
             "user": "aidan.tilgner",
             "message": "Someone wants to talk to you! I've let them know to contact you directly."

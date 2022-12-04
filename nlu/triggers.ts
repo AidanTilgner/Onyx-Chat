@@ -14,7 +14,6 @@ export const activateTrigger = async (
   actionString: string,
   args: { [key: string]: any }
 ) => {
-  console.log("Args", args);
   const { data } = await onyxCore.post(`/procedures/trigger/${actionString}`, {
     args,
   });
