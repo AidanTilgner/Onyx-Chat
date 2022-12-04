@@ -42,7 +42,7 @@ export const getNLUResponse = async (text: string) => {
   const intent = response.intent;
   const entities = response.entities;
   const answer = response.answer;
-  const attachments = await extractAttachments(answer);
+  const attachments = await extractAttachments(answer, intent);
   const filteredAnswer = answer
     ? filterAttachments(answer)
     : "Sorry, I don't understand";
