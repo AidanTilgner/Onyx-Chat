@@ -9,9 +9,13 @@ const triggerLogger = new Logger({
   name: "triggers",
 });
 
-export const activateTrigger = async (actionString: string, args: any) => {
+export const activateTrigger = async (
+  actionString: string,
+  args: { [key: string]: any }
+) => {
+  console.log("Args", args);
   const { data } = await onyxCore.post(`/procedures/trigger/${actionString}`, {
-    args: [args],
+    args,
   });
   return data;
 };

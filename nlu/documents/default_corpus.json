@@ -54,12 +54,10 @@
       "triggers": [
         {
           "type": "notify.user",
-          "args": [
-            {
-              "user": "aidan.tilgner",
-              "message": "Someone wants to talk to you!"
-            }
-          ]
+          "args": {
+            "user": "aidan.tilgner",
+            "message": "Someone wants to talk to you!"
+          }
         }
       ]
     }
