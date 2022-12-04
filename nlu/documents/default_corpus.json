@@ -20,9 +20,9 @@
     },
     {
       "intent": "inquiry.work_history",
-      "utterances": ["What is your work history?"],
+      "utterances": ["What is his work history?"],
       "answers": [
-        "Of course! Almost 2 years ago I graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that I did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. I eventually accepted a full-time position at  <a href=\"https://digital-strata.com/\">Digital Strata</a>, where I am currently employed as a web developer."
+        "Of course! Almost 2 years ago Aidan graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that he did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. Eventually, he accepted a full-time position at <a href=\"https://digital-strata.com/\">Digital Strata</a>, where he is currently employed as a web developer."
       ]
     },
     {
@@ -38,7 +38,7 @@
       "utterances": ["How much experience do you have?"],
       "answers": [
         "As a web developer, around 2 years, as a yo-yoer, around 6 months. I'm better at one than the other :)",
-        "I've worked as a software developer around 2 years. I also put hours into side <a href=\"https://www.aidantilgner.dev/projects\">projects</a> in order to hone my skills. See my <a href=\"https://github.com/AidanTilgner\">GitHub</a> for more details."
+        "Aidan has worked as a software developer around 2 years. I also put hours into side <a href=\"https://www.aidantilgner.dev/projects\">projects</a> in order to hone my skills. See my <a href=\"https://github.com/AidanTilgner\">GitHub</a> for more details."
       ]
     },
     {
@@ -49,7 +49,7 @@
         "I want to speak directly"
       ],
       "answers": [
-        "Of course! Click <a href=\"/contact\">here</a> to contact me directly."
+        "Of course! Click <a href=\"/contact\">here</a> to contact Aidan directly."
       ],
       "buttons": [
         {
