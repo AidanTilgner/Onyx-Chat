@@ -1,7 +1,9 @@
-export const extractAttachments = async (text: string) => {
+import { getButtons } from "./metadata";
+
+export const extractAttachments = async (text: string, intent: string) => {
   if (!text) return {};
   const linkData = extractLinks(text);
-  const buttons = extractButtons(text);
+  const buttons = extractButtons(intent);
   return {
     links: linkData,
     buttons,
@@ -20,23 +22,13 @@ export const extractLinks = (text: string) => {
   return linkData;
 };
 
-export const extractButtons = (text: string) => {
+export const extractButtons = (intent: string) => {
   // match << __button.<button_type> >> in text
-  const buttons = text.match(/<<\s*__button\.(.*?)\s*>>/g);
+  const buttons = getButtons()[intent];
   const buttonData = buttons?.map((button) => {
-    // might have more data in __metadata{key: value} format
-    const metadata = button.match(/__metadata\{(.*?)\}/)?.[1];
-    const parsed = metadata?.split(",").reduce((acc, curr) => {
-      const [key, value] = curr.split(":");
-      return { ...acc, [key]: value };
-    }, {});
-    // type should only be the text immediately after __button. and before __metadata
-    const type = (
-      metadata
-        ? button.match(/__button\.(.*?) __metadata/)?.[1]
-        : button.match(/__button\.(.*?)>>/)?.[1]
-    ).trim();
-    return { type, metadata: parsed };
+    const metadata = button.metadata;
+    const type = button.type;
+    return { type, metadata };
   });
 
   return buttonData ? buttonData.filter((button) => button.type) : [];

@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { onyxCore } from "../utils/axios";
+import { useOnyxCore } from "../utils/axios";
 import { Logger } from "../utils/logger";
 import { getTriggers } from "./metadata";
 import { getSessionIfExists } from "../sessions/index";
@@ -13,10 +13,19 @@ const triggerLogger = new Logger({
 export const activateTrigger = async (
   actionString: string,
   args: { [key: string]: any }
-) => {
-  const { data } = await onyxCore.post(`/procedures/trigger/${actionString}`, {
-    args,
-  });
+): Promise<{ success: boolean }> => {
+  const response = await useOnyxCore()?.post(
+    `/procedures/trigger/${actionString}`,
+    {
+      args,
+    }
+  );
+
+  if (!response) {
+    return { success: false };
+  }
+
+  const { data } = response;
   return data;
 };
 
@@ -51,9 +60,14 @@ export const detectAndActivateTriggers = async (
 
       const triggerRes = await activateTrigger(type, args);
       const success = triggerRes.success;
-      triggerLogger.info(
-        `Trigger ${type} activated with args ${JSON.stringify(args)}`
-      );
+      if (!success) {
+        triggerLogger.error(`Trigger ${type} failed to activate`);
+      } else {
+        triggerLogger.info(
+          `Trigger ${type} activated with args ${JSON.stringify(args)}`
+        );
+      }
+
       triggersReturned[type] = success;
     } catch (err) {
       triggerLogger.error(`Error completing trigger "${trigger.type}": `, err);

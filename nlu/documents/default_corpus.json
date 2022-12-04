@@ -49,7 +49,12 @@
         "I want to speak directly"
       ],
       "answers": [
-        "Of course! Click <a href=\"/contact\">here</a> to contact me directly. << __button.contact_me >>"
+        "Of course! Click <a href=\"/contact\">here</a> to contact me directly."
+      ],
+      "buttons": [
+        {
+          "type": "contact_me"
+        }
       ],
       "triggers": [
         {
