@@ -14,3 +14,17 @@ export const getRequesterInfo = (req: Request) => {
     session_id,
   };
 };
+
+export const getRequesterSessionId = (req: Request): string | null => {
+  const session_id: string =
+    req.query.session_id || req.headers["x-session_id"] || req.body.session_id;
+
+  return session_id || null;
+};
+
+export const getRequesterIp = (req: Request): string | null => {
+  const ip: string | null =
+    (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress;
+
+  return ip;
+};

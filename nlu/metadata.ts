@@ -1,18 +1,27 @@
-import default_corpus from "./documents/default_corpus.json";
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync } from "fs";
 
 export const generateMetadata = async () => {
   writeIntentsToFile();
   writeTriggersToFile();
 };
 
+export const getDefaultCorpus = () => {
+  const default_corpus_buffer = readFileSync(
+    "nlu/documents/default_corpus.json"
+  );
+  const default_corpus = JSON.parse(default_corpus_buffer.toString());
+  return default_corpus;
+};
+
 export const getIntents = () => {
-  const intents = default_corpus.data.map((item) => item.intent);
+  const intents = getDefaultCorpus().data.map((item: any) => item.intent);
   return intents;
 };
 
 export const getDataForIntent = (intent: string) => {
-  const data = default_corpus.data.find((item) => item.intent === intent);
+  const data = getDefaultCorpus().data.find(
+    (item: any) => item.intent === intent
+  );
   return data;
 };
 
@@ -21,9 +30,10 @@ export const getTriggers = () => {
     [key: string]: {
       type: string;
       args: { [key: string]: any };
+      attachments: string[];
     }[];
   } = {};
-  default_corpus.data.forEach((item) => {
+  getDefaultCorpus().data.forEach((item: any) => {
     if (item.triggers) {
       triggers[item.intent] = item.triggers;
     }

@@ -56,10 +56,16 @@
           "type": "notify.user",
           "args": {
             "user": "aidan.tilgner",
-            "message": "Someone wants to talk to you!"
-          }
+            "message": "Someone wants to talk to you! I've let them know to contact you directly."
+          },
+          "attachments": ["session_ip_address"]
         }
       ]
+    },
+    {
+      "intent": "tell_about_user.name",
+      "utterances": ["My name is @name", "I'm @name", "I am @name"],
+      "answers": ["Nice to meet you!", "Hi there, it's nice to meet you!"]
     }
   ]
 }
