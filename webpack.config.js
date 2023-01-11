@@ -18,6 +18,22 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.module\.s(a|c)ss$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+              },
+              importLoaders: 2,
+            },
+          },
+          "sass-loader",
+        ],
+      },
     ],
   },
 };
