@@ -1,0 +1,23 @@
+.Interactive {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+
+  margin-top: 36px;
+  width: 60%;
+  border: 1px solid #eaeaea;
+  box-shadow: 0.2px 0.2px 24px 0 rgba($color: #000000, $alpha: 0.1);
+  border-radius: 5px;
+  padding: 24px;
+  text-align: left;
+}
+
+.input {
+}
+.response {
+}

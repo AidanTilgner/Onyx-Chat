@@ -4,10 +4,18 @@ import {
   removeResponseFromIntent,
 } from "../nlu/training";
 import { Router } from "express";
-import { retrain } from "../nlu";
+import { retrain, getNLUResponse } from "../nlu";
 import { getDataForIntent, getIntents } from "../nlu/metadata";
 
 const router = Router();
+
+router.post("/say", async (req, res) => {
+  const text = req.body.text || req.query.text;
+  const response = await getNLUResponse(text);
+  const intentData = getDataForIntent(response.intent);
+
+  res.json({ ...response, intent_data: intentData });
+});
 
 router.post("/datapoint", async (req, res) => {
   try {
