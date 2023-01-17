@@ -42,6 +42,29 @@ export const getAnswer = async (text) => {
     });
 };
 
+export const refreshAndAnswer = async (text) => {
+  return await api
+    .post("/testing/say", {
+      text,
+      retrain: true,
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Model has been refreshed",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return;
+    });
+};
+
 export const getTrainingAnswer = async (text) => {
   return await api
     .post("/training/say", {
@@ -64,13 +87,13 @@ export const addDataPoint = async ({ intent, utterances, answers }) => {
       intent,
       utterances,
       answers,
+      retrain: true,
     })
     .then((res) => {
       showNotification({
         title: "Success",
         message: "Data point added, model will be refreshed soon",
       });
-      retrainModel();
       return res.data.data;
     })
     .catch((err) => {
@@ -89,6 +112,7 @@ export const removeAnswerFromIntent = async ({ intent, answer }) => {
       data: {
         intent,
         answer,
+        retrain: true,
       },
     })
     .then((res) => {
@@ -113,11 +137,105 @@ export const addAnswerToIntent = async ({ intent, answer }) => {
     .put("/training/response", {
       intent,
       answer,
+      retrain: true,
     })
     .then((res) => {
       showNotification({
         title: "Success",
         message: "Answer added to intent",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const addOrUpdateUtteranceOnIntent = async ({
+  old_intent,
+  new_intent,
+  utterance,
+}) => {
+  return await api
+    .put("/training/intent", {
+      old_intent,
+      new_intent,
+      utterance,
+      retrain: true,
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Utterance added to intent",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const getAllIntents = async () => {
+  return await api
+    .get("/training/intents")
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const addUtteranceToIntent = async ({ intent, utterance }) => {
+  return await api
+    .put("/training/utterance", {
+      intent,
+      utterance,
+      retrain: true,
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Utterance added to intent",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const removeUtteranceFromIntent = async ({ intent, utterance }) => {
+  return await api
+    .delete("/training/utterance", {
+      data: {
+        intent,
+        utterance,
+        retrain: true,
+      },
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Utterance removed from intent",
       });
       return res.data.data;
     })

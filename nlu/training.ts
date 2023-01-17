@@ -85,3 +85,104 @@ export const removeResponseFromIntent = async (
   const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
   return newDataPoint;
 };
+
+export const addOrUpdateUtteranceOnIntent = async (
+  old_intent: string,
+  new_intent: string,
+  utterance: string
+) => {
+  // check the old intent for this utterance, if it exists, remove it
+  const corpusData = default_corpus.data;
+  const oldIntent = corpusData.find((item) => item.intent === old_intent);
+  if (oldIntent) {
+    oldIntent.utterances = oldIntent.utterances.filter(
+      (item) => item !== utterance && item !== utterance.toLocaleLowerCase()
+    );
+  }
+
+  // check the new intent for this utterance, if it exists, do nothing, if it doesn't, add it
+  const newIntent = corpusData.find((item) => item.intent === new_intent);
+  if (newIntent) {
+    newIntent.utterances
+      ? newIntent.utterances.push(utterance)
+      : (newIntent.utterances = [utterance]);
+  } else {
+    corpusData.push({
+      intent: new_intent,
+      utterances: [utterance],
+      answers: [],
+    });
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  const newDataPoint = newCorpus.data.find(
+    (item) => item.intent === new_intent
+  );
+  return newDataPoint;
+};
+
+export const removeUtteranceFromIntent = async (
+  intent: string,
+  utterance: string
+) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.utterances = existingIntent.utterances.filter(
+      (item) => item !== utterance
+    );
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
+};
+
+export const addUtteranceToIntent = async (
+  intent: string,
+  utterance: string
+) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.utterances?.length
+      ? existingIntent.utterances.push(utterance)
+      : (existingIntent.utterances = [utterance]);
+  } else {
+    corpusData.push({
+      intent,
+      utterances: [utterance],
+      answers: [],
+    });
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
+};
