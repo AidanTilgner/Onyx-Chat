@@ -4,19 +4,32 @@
   "data": [
     {
       "intent": "greeting.hello",
-      "utterances": ["hello", "hey", "hey there", "hi", "hi there"],
+      "utterances": [
+        "hello",
+        "hey",
+        "hey there",
+        "hi",
+        "hi there",
+        "hola",
+        "ciao"
+      ],
       "answers": [
         "Hi! How can I help you?",
         "Hello, how can I help you?",
         "Hey there, how can I help you?",
         "Hi, how are you?",
-        "Hey, how are you?"
+        "Hey, how are you?",
+        "Hello, how are you?"
       ]
     },
     {
       "intent": "inquiry.current_state",
       "utterances": ["how are you?"],
-      "answers": ["I'm great, thanks for asking!"]
+      "answers": [
+        "I'm great, thanks for asking!",
+        "I'm doing well, thanks for asking :)",
+        "I'm well, thanks for asking"
+      ]
     },
     {
       "intent": "inquiry.work_history",
@@ -51,11 +64,7 @@
       "answers": [
         "Of course! Click <a href=\"/contact\">here</a> to contact Aidan directly."
       ],
-      "buttons": [
-        {
-          "type": "contact_me"
-        }
-      ],
+      "buttons": [{ "type": "contact_me" }],
       "triggers": [
         {
           "type": "notifications.specific_user",
@@ -71,6 +80,21 @@
       "intent": "tell_about_user.name",
       "utterances": ["My name is @name", "I'm @name", "I am @name"],
       "answers": ["Nice to meet you!", "Hi there, it's nice to meet you!"]
+    },
+    {
+      "intent": "test",
+      "utterances": [],
+      "answers": ["test recieved", "New test recieved"]
+    },
+    {
+      "intent": "newTest",
+      "utterances": ["Testing", "tester", "ooga booga", "Test"],
+      "answers": [
+        "Recieved test",
+        "Consider this phrase tested :D",
+        "Tested, my friend",
+        "Test recieved!"
+      ]
     }
   ]
 }

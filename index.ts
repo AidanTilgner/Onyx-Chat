@@ -38,5 +38,5 @@ app.use("/chat", ChatRouter);
 app.use("/training", TrainingRouter);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+  console.info(`Server is running on port ${process.env.PORT}`);
 });

@@ -14,9 +14,9 @@ export const getDefaultCorpus = () => {
   return default_corpus;
 };
 
-export const getIntents = () => {
+export const getIntents = (): string[] => {
   const intents = getDefaultCorpus().data.map((item: any) => item.intent);
-  return intents;
+  return intents as string[];
 };
 
 export const getDataForIntent = (intent: string) => {

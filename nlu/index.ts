@@ -2,7 +2,11 @@ import { dockStart } from "@nlpjs/basic";
 import { generateMetadata } from "./metadata";
 import { extractAttachments, filterAttachments } from "./attachments";
 
-export let manager;
+export let manager = null;
+
+export const getManger = () => {
+  return manager;
+};
 
 export const train = async () => {
   const dock = await dockStart({
@@ -24,7 +28,22 @@ export const train = async () => {
 
 export const retrain = async () => {
   try {
-    await train();
+    manager = null;
+
+    const dock = await dockStart({
+      settings: {
+        nlp: {
+          corpora: ["nlu/documents/default_corpus.json"],
+        },
+      },
+      use: ["Basic"],
+    });
+
+    const nlp = dock.get("nlp");
+    await nlp.train();
+
+    manager = nlp;
+
     return 1;
   } catch (err) {
     console.error(err);
@@ -33,7 +52,7 @@ export const retrain = async () => {
 };
 
 export const getRawResponse = async (text: string) => {
-  const response = await manager.process("en", text);
+  const response = await getManger().process("en", text);
   return response;
 };
 
@@ -46,5 +65,11 @@ export const getNLUResponse = async (text: string) => {
   const filteredAnswer = answer
     ? filterAttachments(answer)
     : "Sorry, I don't understand";
-  return { intent, entities, answer: filteredAnswer, attachments };
+  return {
+    intent,
+    entities,
+    answer: filteredAnswer,
+    attachments,
+    initial_text: text,
+  };
 };
