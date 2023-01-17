@@ -25,6 +25,7 @@ import {
 import { showNotification } from "@mantine/notifications";
 import { TrashSimple, Copy, Check } from "phosphor-react";
 import { copyToClipboard } from "../../helpers/utilities";
+import { getShortenedMessage } from "../../helpers/formating";
 
 function Interactive() {
   const [text, setText] = useState("");
@@ -60,7 +61,9 @@ function Interactive() {
       setData(answer);
       showNotification({
         title: "Message Received",
-        message: `You said: ${text}, and the bot said: ${answer.answer}`,
+        message: `You said: ${text}, and the bot said: ${getShortenedMessage(
+          answer.answer
+        )}`,
       });
     });
   };
@@ -347,7 +350,16 @@ function Interactive() {
                       weight={400}
                       size="sm"
                     >
-                      <span onClick={() => copy(answer)}>{answer}</span>
+                      <span
+                        onClick={() =>
+                          setData({
+                            ...data,
+                            answer,
+                          })
+                        }
+                      >
+                        {answer}
+                      </span>
                       <div className={styles.answer_icons}>
                         <div
                           className={`${styles.answer_delete} ${styles.answer_icon}`}

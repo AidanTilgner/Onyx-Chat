@@ -82,7 +82,6 @@ router.put("/intent", async (req, res) => {
   );
 
   const shouldRetrain = req.body.retrain || req.query.retrain;
-  console.log("Retraining: ", shouldRetrain);
   const retrained = shouldRetrain ? await retrain() : false;
 
   const toSend = {

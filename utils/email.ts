@@ -53,7 +53,7 @@ export const sendWarningEmail = async (message: string, other: any) => {
   try {
     const { NODE_ENV } = process.env;
     if (NODE_ENV === "development") {
-      console.log("Warning email not sent in development mode");
+      console.info("Warning email not sent in development mode");
       return;
     }
     const info = await sendEmail({

@@ -33,7 +33,10 @@
     },
     {
       "intent": "inquiry.work_history",
-      "utterances": ["What is his work history?"],
+      "utterances": [
+        "What is his work history?",
+        "What is Aidan's experience?"
+      ],
       "answers": [
         "Of course! Almost 2 years ago Aidan graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that he did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. Eventually, he accepted a full-time position at <a href=\"https://digital-strata.com/\">Digital Strata</a>, where he is currently employed as a web developer."
       ]
