@@ -56,7 +56,8 @@ export const addResponseToIntent = async (intent: string, response: string) => {
 
   writeFileSync("./nlu/documents/default_corpus.json", formatted);
 
-  return newCorpus;
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
 };
 
 export const removeResponseFromIntent = async (
@@ -81,5 +82,6 @@ export const removeResponseFromIntent = async (
 
   writeFileSync("./nlu/documents/default_corpus.json", formatted);
 
-  return newCorpus;
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
 };

@@ -14,7 +14,7 @@ export const retrainModel = async () => {
         title: "Success",
         message: "Model has been refreshed",
       });
-      return res.data;
+      return res.data.data;
     })
     .catch((err) => {
       console.error(err);
@@ -31,7 +31,7 @@ export const getAnswer = async (text) => {
     .post("/nlu/say", {
       text,
     })
-    .then((res) => res.data)
+    .then((res) => res.data.data)
     .catch((err) => {
       console.error(err);
       showNotification({
@@ -47,7 +47,7 @@ export const getTrainingAnswer = async (text) => {
     .post("/training/say", {
       text,
     })
-    .then((res) => res.data)
+    .then((res) => res.data.data)
     .catch((err) => {
       console.error(err);
       showNotification({
@@ -71,7 +71,55 @@ export const addDataPoint = async ({ intent, utterances, answers }) => {
         message: "Data point added, model will be refreshed soon",
       });
       retrainModel();
-      return res.data;
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const removeAnswerFromIntent = async ({ intent, answer }) => {
+  return await api
+    .delete("/training/response", {
+      data: {
+        intent,
+        answer,
+      },
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Answer removed from intent",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const addAnswerToIntent = async ({ intent, answer }) => {
+  return await api
+    .put("/training/response", {
+      intent,
+      answer,
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Answer added to intent",
+      });
+      return res.data.data;
     })
     .catch((err) => {
       console.error(err);

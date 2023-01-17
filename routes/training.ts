@@ -14,7 +14,12 @@ router.post("/say", async (req, res) => {
   const response = await getNLUResponse(text);
   const intentData = getDataForIntent(response.intent);
 
-  res.json({ ...response, intent_data: intentData });
+  const toSend = {
+    message: "Got response",
+    data: { ...response, intent_data: intentData },
+  };
+
+  res.json(toSend);
 });
 
 router.post("/datapoint", async (req, res) => {
@@ -36,7 +41,7 @@ router.post("/retrain", async (req, res) => {
     const result = await retrain();
     const toSend = {
       message: "Retrained",
-      result,
+      data: result,
     };
     res.send(toSend);
   } catch (err) {
@@ -55,9 +60,9 @@ router.get("/intent/:intent", async (req, res) => {
   res.send(toSend);
 });
 
-router.delete("/response", (req, res) => {
-  const { intent, response } = req.body;
-  const data = removeResponseFromIntent(intent, response);
+router.delete("/response", async (req, res) => {
+  const { intent, answer } = req.body;
+  const data = await removeResponseFromIntent(intent, answer);
   const toSend = {
     message: "Response removed",
     success: true,
@@ -67,9 +72,9 @@ router.delete("/response", (req, res) => {
   res.send(toSend);
 });
 
-router.put("/response", (req, res) => {
-  const { intent, response } = req.body;
-  const data = addResponseToIntent(intent, response);
+router.put("/response", async (req, res) => {
+  const { intent, answer } = req.body;
+  const data = await addResponseToIntent(intent, answer);
   const toSend = {
     message: "Responses added",
     success: true,

@@ -46,5 +46,11 @@ export const getNLUResponse = async (text: string) => {
   const filteredAnswer = answer
     ? filterAttachments(answer)
     : "Sorry, I don't understand";
-  return { intent, entities, answer: filteredAnswer, attachments };
+  return {
+    intent,
+    entities,
+    answer: filteredAnswer,
+    attachments,
+    initial_text: text,
+  };
 };

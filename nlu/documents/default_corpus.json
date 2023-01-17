@@ -10,13 +10,17 @@
         "Hello, how can I help you?",
         "Hey there, how can I help you?",
         "Hi, how are you?",
-        "Hey, how are you?"
+        "Hey, how are you?",
+        "Hello, how are you?"
       ]
     },
     {
       "intent": "inquiry.current_state",
       "utterances": ["how are you?"],
-      "answers": ["I'm great, thanks for asking!"]
+      "answers": [
+        "I'm great, thanks for asking!",
+        "I'm doing well, thanks for asking :)"
+      ]
     },
     {
       "intent": "inquiry.work_history",
@@ -51,11 +55,7 @@
       "answers": [
         "Of course! Click <a href=\"/contact\">here</a> to contact Aidan directly."
       ],
-      "buttons": [
-        {
-          "type": "contact_me"
-        }
-      ],
+      "buttons": [{ "type": "contact_me" }],
       "triggers": [
         {
           "type": "notifications.specific_user",

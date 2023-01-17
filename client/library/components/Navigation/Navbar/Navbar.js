@@ -9,7 +9,6 @@ function Navbar() {
     <div className={styles.navbar}>
       <h2 className={styles.title}>Onyx Chat</h2>
       <Button
-        color={"blue"}
         onClick={() => {
           retrainModel();
         }}
