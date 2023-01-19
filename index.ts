@@ -19,11 +19,8 @@ app.use(Express.urlencoded({ extended: true }));
 app.use(Express.static(path.join(__dirname, "public", "default")));
 if (process.env.NODE_ENV === "development") {
   app.use("/train", Express.static(path.join(__dirname, "public", "training")));
-  app.use(
-    "/train_new",
-    Express.static(path.join(__dirname, "public", "training_new"))
-  );
 }
+
 app.use(logIP);
 app.use(checkAPIKey);
 

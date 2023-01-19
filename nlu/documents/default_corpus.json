@@ -86,11 +86,6 @@
     },
     {
       "intent": "test",
-      "utterances": [],
-      "answers": ["test recieved", "New test recieved"]
-    },
-    {
-      "intent": "newTest",
       "utterances": ["Testing", "tester", "ooga booga", "Test"],
       "answers": [
         "Recieved test",
@@ -98,6 +93,45 @@
         "Tested, my friend",
         "Test recieved!"
       ]
+    },
+    {
+      "intent": "describe_state.positive",
+      "utterances": [
+        "I'm doing good",
+        "I am well",
+        "I'm doing well",
+        "I'm great"
+      ],
+      "answers": [
+        "I'm glad to hear it!",
+        "That's great!",
+        "Perfect!",
+        "Nice!",
+        "Great! Do you have any more questions for me?"
+      ]
+    },
+    {
+      "intent": "describe_state.neutral",
+      "utterances": ["I'm fine", "I'm alright", "I'm ok"],
+      "answers": ["Sounds good!", "Alright, how can I make it great?"]
+    },
+    {
+      "intent": "inquiry.current_favorite_color",
+      "utterances": [
+        "whats his favorite color",
+        "favorite color",
+        "What is Aidans favorite color?"
+      ],
+      "answers": ["His favorite color is blue."]
+    },
+    {
+      "intent": "inquiry.relationship_stat",
+      "utterances": [
+        "is Aidan single?",
+        "is Aidan taken?",
+        "does Aidan have a girlfriend?"
+      ],
+      "answers": ["Aidan is happily engaged"]
     }
   ]
 }

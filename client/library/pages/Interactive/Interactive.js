@@ -74,7 +74,11 @@ function Interactive() {
       answer: newAnswer,
     }).then(() => {
       setNewAnswer("");
-      submitText();
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        submitText();
+      }, 1500);
     });
   };
 
@@ -83,7 +87,11 @@ function Interactive() {
       intent: data.intent,
       answer,
     }).then(() => {
-      submitText();
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        submitText();
+      }, 1500);
     });
   };
 
@@ -97,7 +105,7 @@ function Interactive() {
       setTimeout(() => {
         setLoading(false);
         submitText();
-      }, 1000);
+      }, 1500);
     });
   };
 
@@ -106,7 +114,11 @@ function Interactive() {
       intent: data.intent,
       utterance,
     }).then(() => {
-      submitText();
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        submitText();
+      }, 1500);
     });
   };
 
@@ -116,7 +128,11 @@ function Interactive() {
       utterance: newUtterance,
     }).then(() => {
       setNewUtterance("");
-      submitText();
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        submitText();
+      }, 1500);
     });
   };
 
@@ -141,7 +157,7 @@ function Interactive() {
         style={{ width: "100%" }}
       >
         <Grid.Col
-          span={data.answer ? 6 : 12}
+          span={12}
           sx={(theme) => ({
             display: "flex",
             justifyContent: "center",
@@ -154,7 +170,7 @@ function Interactive() {
             py={14}
             px={24}
             sx={(theme) => ({
-              width: data.answer ? "100%" : "40%",
+              width: "40%",
             })}
           >
             <Flex
