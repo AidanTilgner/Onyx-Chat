@@ -1,7 +1,9 @@
 .env
 node_modules
-storage
 db
 api-keys.json
 *.model.*
 build
+storage/analytics/*
+storage/metadata/*
+storage/logs/*
