@@ -3,12 +3,15 @@ import {
   addOrUpdateUtteranceOnIntent,
   addResponseToIntent,
   addUtteranceToIntent,
+  enhanceIntent,
+  removeButtonFromIntentByType,
   removeResponseFromIntent,
   removeUtteranceFromIntent,
+  updateButtonsOnIntent,
 } from "../nlu/training";
 import { Router } from "express";
 import { retrain, getNLUResponse } from "../nlu";
-import { getDataForIntent, getIntents } from "../nlu/metadata";
+import { getDataForIntent, getIntents, getAllButtons } from "../nlu/metadata";
 
 const router = Router();
 
@@ -159,6 +162,82 @@ router.put("/utterance", async (req, res) => {
     data,
     retrained,
   };
+  res.send(toSend);
+});
+
+router.put("/intent/:intent/enhance", async (req, res) => {
+  const { intent } = req.params;
+  const { enhance } = req.body as {
+    enhance: boolean;
+  };
+
+  const data = enhanceIntent(intent, enhance);
+
+  const shouldRetrain = req.body.retrain || req.query.retrain;
+
+  const retrained = shouldRetrain ? await retrain() : false;
+
+  const toSend = {
+    message: "Intent enhanced",
+    success: true,
+    data,
+    retrained,
+  };
+
+  res.send(toSend);
+});
+
+router.put("/intent/:intent/buttons", async (req, res) => {
+  const { intent } = req.params;
+  const { buttons } = req.body as {
+    buttons: { type: string }[];
+  };
+
+  const data = updateButtonsOnIntent(intent, buttons);
+
+  const shouldRetrain = req.body.retrain || req.query.retrain;
+
+  const retrained = shouldRetrain ? await retrain() : false;
+
+  const toSend = {
+    message: "Intent buttons updated",
+    success: true,
+    data,
+    retrained,
+  };
+});
+
+router.delete("/intent/:intent/button", async (req, res) => {
+  const { intent } = req.params;
+  const { button } = req.body as {
+    button: { type: string };
+  };
+
+  const data = removeButtonFromIntentByType(intent, button.type);
+
+  const shouldRetrain = req.body.retrain || req.query.retrain;
+
+  const retrained = shouldRetrain ? await retrain() : false;
+
+  const toSend = {
+    message: `Button with type ${button.type} removed from intent ${intent}`,
+    success: true,
+    data,
+    retrained,
+  };
+
+  res.send(toSend);
+});
+
+router.get("/buttons", async (req, res) => {
+  const buttons = getAllButtons();
+
+  const toSend = {
+    message: "Got buttons",
+    success: true,
+    data: buttons,
+  };
+
   res.send(toSend);
 });
 

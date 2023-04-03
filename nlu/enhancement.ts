@@ -36,26 +36,57 @@ const getInitialPrompt = () => `
   If you are asked a question which may be sensitive, or inappropriate, you should respond with something like:
   "I'm sorry, but I don't feel comfortable answering that question."
 
-  Although you are allowed some creativity with your responses, you will only be allowed to do variations on a predefined, intent based response.
-  An example input would be:
-  "A user said: 'Hello', the intent was classified as 'greeting.hello', and the response was 'Hello, how can I help you today?'.
-  Please provide an enhanced response based on the intent and the original response."
-  And you should respond with something like:
+  Example Input:
+  "A user said: 'Hello'. the intent was classified as 'greeting.hello' with a confidence of 80%, which is high. The original response was 'Hello, how can I help you today?'.
+  Instructions: Please provide a variation on the original response, keeping in mind the intent."
+
+  Example Output:
   "Hello, how can I help you on this wonderful day?"
 
-  Keep in mind, your response will go directly to the user. If you feel that a predefine response does not make sense, you may override it to make more sense to a user.
-  Your job is to do your best to remain in the bounds of the predefined responses, but also to make the conversation as natural as possible.
-  Do not confuse the user by including details about your inner workings, unless specifically asked.
-  If you notice that a response was intended for a different intent, do not mention it to the user, instead, respond in a way that makes sense, without revealing a discrepency.
+  Be sure to carefully follow the instructions, and follow them carefully. They will tell you how much to adhere to the original response, and how much creative liberty you may take.
+
+  Hard rules:
+  - Never conceal that you are a digital assistant called Onyx
+  - Have fun!
   `;
 
 const getFormattedPrompt = (
   message: string,
   intent: string,
-  response: string
-) => `
-  A user said: "${message}", the intent was classified as "${intent}", and the response was "${response}". Please provide an enhanced response based on the intent and the original response.
-  `;
+  response: string,
+  confidence: number
+) => {
+  const confidenceMapper = (conf: number) => {
+    if (conf < 0.5) {
+      return "low";
+    }
+
+    if (conf < 0.75) {
+      return "medium";
+    }
+
+    return "high";
+  };
+
+  const userStatement = `A user said: "${message}"`;
+  const intentStatement = `The intent was classified as "${intent}" with a confidence of ${confidence}%, which is ${confidenceMapper(
+    confidence
+  )}`;
+  const responseStatement = `The original response was "${response}"`;
+  const intructionsStatement = () => {
+    if (confidence < 0.5) {
+      return "Instructions: Please provide a response that makes sense in context, and sounds natural.";
+    }
+
+    if (confidence < 0.75) {
+      return "Instructions: Please provide an enhanced, natural response based on the intent and the original response.";
+    }
+
+    return "Instructions: Please provide a variation on the original response, keeping in mind the intent.";
+  };
+
+  return `${userStatement}. ${intentStatement}. ${responseStatement}. ${intructionsStatement()}`;
+};
 
 export const getSpicedUpAnswer = async (
   message: string,
@@ -63,14 +94,16 @@ export const getSpicedUpAnswer = async (
     intent,
     response,
     session_id,
+    confidence,
   }: {
     intent: string;
     response: string;
     session_id: string;
+    confidence: number;
   }
 ) => {
   try {
-    const proompt = getFormattedPrompt(message, intent, response);
+    const proompt = getFormattedPrompt(message, intent, response, confidence);
 
     const conversationChats = await getConversationChatsFromSessionId(
       session_id
@@ -112,6 +145,7 @@ export const getSpicedUpAnswer = async (
 export const enhanceChatIfNeccessary = async (
   answer: string,
   intent: string,
+  confidence: number,
   session_id: string
 ): Promise<{
   answer: string;
@@ -131,6 +165,7 @@ export const enhanceChatIfNeccessary = async (
         intent,
         response: answer,
         session_id,
+        confidence,
       });
 
       return {

@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Card,
+  Checkbox,
   Flex,
   Grid,
   Loader,
@@ -21,6 +22,10 @@ import {
   getAllIntents,
   removeUtteranceFromIntent,
   addUtteranceToIntent,
+  updateEnhaceForIntent,
+  removeButtonFromIntent,
+  updateButtonsOnIntent,
+  getAllButtons,
 } from "../../helpers/fetching";
 import { showNotification } from "@mantine/notifications";
 import { TrashSimple, Copy, Check } from "phosphor-react";
@@ -28,7 +33,12 @@ import { copyToClipboard } from "../../helpers/utilities";
 import { getShortenedMessage } from "../../helpers/formating";
 
 function Interactive() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(localStorage.getItem("lastText") || "");
+
+  useEffect(() => {
+    localStorage.setItem("lastText", text);
+  }, [text]);
+
   const [data, setData] = useState({
     intent: "",
     answer: "",
@@ -39,12 +49,16 @@ function Interactive() {
       intent: "",
       utterances: [],
       answers: [],
+      enhance: false,
+      buttons: [],
     },
   });
   const [newAnswer, setNewAnswer] = useState("");
   const [newUtterance, setNewUtterance] = useState("");
   const [newIntent, setNewIntent] = useState(data.intent);
+  const [newButton, setNewButton] = useState({ type: "" });
   const [allIntents, setAllIntents] = useState([]);
+  const [allButtons, setAllButtons] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -54,6 +68,12 @@ function Interactive() {
     if (data.intent && data.intent !== newIntent) {
       setNewIntent(data.intent);
     }
+  }, [data.intent]);
+
+  useEffect(() => {
+    getAllButtons().then((res) => {
+      setAllButtons(res);
+    });
   }, [data.intent]);
 
   const submitText = async () => {
@@ -141,6 +161,57 @@ function Interactive() {
     showNotification({
       title: "Copied to Clipboard",
       message: `Copied: ${text}`,
+    });
+  };
+
+  const toggleEnhance = () => {
+    updateEnhaceForIntent({
+      intent: data.intent,
+      enhance: !data.intent_data?.enhance,
+    }).then((res) => {
+      setData({
+        ...data,
+        intent_data: {
+          ...data.intent_data,
+          enhance: res.enhance,
+        },
+      });
+    });
+  };
+
+  const deleteButton = (button) => {
+    removeButtonFromIntent({
+      intent: data.intent,
+      button,
+    }).then(() => {
+      setLoading(true);
+      setNewButton({ type: "" });
+      setTimeout(() => {
+        setLoading(false);
+        submitText();
+      }, 1500);
+    });
+  };
+
+  const addNewButton = () => {
+    const newButtons = [
+      ...(data.intent_data?.buttons || []),
+      {
+        ...newButton,
+        type: newButton.type.toLowerCase(),
+      },
+    ];
+
+    updateButtonsOnIntent({
+      intent: data.intent,
+      buttons: newButtons,
+    }).then(() => {
+      setNewButton({ type: "" });
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        submitText();
+      }, 1500);
     });
   };
 
@@ -274,6 +345,12 @@ function Interactive() {
                   {data.intent === newIntent ? <Check size={16} /> : "Update"}
                 </Button>
               </Flex>
+              <Checkbox
+                label="Enhance answers on this intent."
+                checked={data.intent_data?.enhance || false}
+                onChange={(e) => toggleEnhance()}
+                sx={() => ({ marginTop: "24px" })}
+              />
             </Grid.Col>
             <Grid.Col span={6}>
               <Text
@@ -414,6 +491,84 @@ function Interactive() {
                   sx={() => ({ width: "100%" })}
                 />
                 <Button size="sm" onClick={submitNewAnswer}>
+                  Add
+                </Button>
+              </Flex>
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <Text
+                size="md"
+                weight={500}
+                sx={() => ({
+                  textAlign: "left",
+                  marginBottom: "14px",
+                })}
+              >
+                When you have the intent "{data.intent}",
+                {data.intent_data?.buttons?.length
+                  ? " these buttons will be sent to the client:"
+                  : " you can have buttons sent to the client:"}
+              </Text>
+              {/* buttons are objects formatted like {type: "buttontype"} */}
+              <Box
+                className={styles.buttons}
+                sx={() => ({ textAlign: "left" })}
+              >
+                {data?.intent_data?.buttons?.map((button, index) => {
+                  return (
+                    <Text
+                      key={button + Math.random()}
+                      className={styles.button}
+                      weight={400}
+                      size="sm"
+                    >
+                      <Button
+                        size="sm"
+                        sx={() => ({
+                          display: "inline-block",
+                        })}
+                        variant="light"
+                      >
+                        {button.type}
+                      </Button>
+                      <div className={styles.button_icons}>
+                        <div
+                          className={`${styles.button_delete} ${styles.button_icon}`}
+                          title="Remove button"
+                          onClick={() => deleteButton(button)}
+                        >
+                          <TrashSimple size={12} />
+                        </div>
+                      </div>
+                    </Text>
+                  );
+                })}
+              </Box>
+              <Flex
+                justify={"space-between"}
+                gap={24}
+                sx={() => ({ marginTop: "14px" })}
+              >
+                <Autocomplete
+                  placeholder={`Add a button for "${data?.initial_text}"`}
+                  value={newButton.type}
+                  onChange={(e) =>
+                    setNewButton({
+                      type: e,
+                    })
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      addNewButton();
+                    }
+                  }}
+                  size="sm"
+                  sx={() => ({ width: "100%" })}
+                  data={allButtons.map((btn) => {
+                    return { label: btn.type, value: btn.type };
+                  })}
+                />
+                <Button size="sm" onClick={addNewButton}>
                   Add
                 </Button>
               </Flex>

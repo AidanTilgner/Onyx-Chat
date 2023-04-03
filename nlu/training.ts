@@ -186,3 +186,74 @@ export const addUtteranceToIntent = async (
   const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
   return newDataPoint;
 };
+
+export const enhanceIntent = (intent: string, shouldEnhance: boolean) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.enhance = shouldEnhance;
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
+};
+
+export const updateButtonsOnIntent = async (
+  intent: string,
+  buttons: { type: string }[]
+) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.buttons = buttons;
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
+};
+
+export const removeButtonFromIntentByType = async (
+  intent: string,
+  type: string
+) => {
+  const corpusData = default_corpus.data;
+
+  const existingIntent = corpusData.find((item) => item.intent === intent);
+  if (existingIntent) {
+    existingIntent.buttons = existingIntent.buttons.filter(
+      (item) => item.type !== type
+    );
+  }
+
+  const newCorpus = {
+    ...default_corpus,
+    data: corpusData,
+  };
+
+  const formatted = prettify_json(JSON.stringify(newCorpus));
+
+  writeFileSync("./nlu/documents/default_corpus.json", formatted);
+
+  const newDataPoint = newCorpus.data.find((item) => item.intent === intent);
+  return newDataPoint;
+};

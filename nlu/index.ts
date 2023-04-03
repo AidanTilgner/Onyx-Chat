@@ -59,18 +59,20 @@ export const getRawResponse = async (text: string) => {
 
 export const getNLUResponse = async (text: string) => {
   const response = await getRawResponse(text);
-  const intent = response.intent;
+  const intent = response.intent as string;
   const entities = response.entities;
-  const answer = response.answer;
+  const answer = response.answer as string;
   const attachments = await extractAttachments(answer, intent);
   const filteredAnswer = answer
     ? filterAttachments(answer)
     : "Sorry, I don't understand";
+  const confidence = Math.round((response.score as number) * 100);
   return {
     intent,
     entities,
     answer: filteredAnswer,
     attachments,
     initial_text: text,
+    confidence,
   };
 };

@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   const session_id = getRequesterSessionId(req) || createSession().id;
 
   const response = await getNLUResponse(message);
-  const { intent, answer } = response;
+  const { intent, answer, confidence } = response;
   detectAndActivateTriggers(intent, session_id);
   await addChatToConversationAndCreateIfNotExists(
     session_id,
@@ -39,6 +39,7 @@ router.post("/", async (req, res) => {
   const { answer: botAnswer, enhanced } = await enhanceChatIfNeccessary(
     answer,
     intent,
+    confidence,
     session_id
   );
 
@@ -58,6 +59,7 @@ router.post("/", async (req, res) => {
     ...response,
     answer: botAnswer,
     chats,
+    enhanced: enhanced || false,
   };
 
   res.send(toSend);

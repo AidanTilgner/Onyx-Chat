@@ -248,3 +248,90 @@ export const removeUtteranceFromIntent = async ({ intent, utterance }) => {
       return err;
     });
 };
+
+export const updateEnhaceForIntent = async ({ intent, enhance }) => {
+  return await api
+    .put(`/training/intent/${intent}/enhance`, {
+      enhance,
+      retrain: false,
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: enhance
+          ? "Intent will be enhanced"
+          : "Intent will not be enhanced",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const updateButtonsOnIntent = async ({ intent, buttons }) => {
+  return await api
+    .put(`/training/intent/${intent}/buttons`, {
+      buttons,
+      retrain: false,
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Buttons updated",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const removeButtonFromIntent = async ({ intent, button }) => {
+  return await api
+    .delete(`/training/intent/${intent}/button`, {
+      data: {
+        button,
+        retrain: false,
+      },
+    })
+    .then((res) => {
+      showNotification({
+        title: "Success",
+        message: "Button removed",
+      });
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};
+
+export const getAllButtons = async () => {
+  return await api
+    .get("/training/buttons")
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err);
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+      });
+      return err;
+    });
+};

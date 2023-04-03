@@ -55,6 +55,23 @@ export const getButtons = () => {
   return buttons;
 };
 
+export const getAllButtons = () => {
+  const buttons: { type: string; metadata?: string }[] = [];
+
+  getDefaultCorpus().data.forEach((item: any) => {
+    if (item.buttons) {
+      buttons.push(...item.buttons);
+    }
+  });
+
+  const uniqueButtons = buttons.filter(
+    (item, index) =>
+      buttons.findIndex((button) => button.type === item.type) === index
+  );
+
+  return uniqueButtons;
+};
+
 export const writeIntentsToFile = async () => {
   const intents = getIntents();
 
