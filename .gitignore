@@ -1,8 +1,10 @@
 .env
 node_modules
-storage
 db
 api-keys.json
 *.model.*
 build
 datastore/
+storage/analytics/*
+storage/metadata/*
+storage/logs/*
