@@ -188,14 +188,15 @@
       "answers": [
         "My purpose on this website is to act as a digital proxy for Aidan Tilgner, and answer any questions you may have about him"
       ],
-      "buttons": [{ "type": "contact_me" }]
+      "buttons": []
     },
     {
       "intent": "inquiry.creator",
       "utterances": ["Who is your creator?"],
       "answers": [
         "My creator is Aidan Tilgner, if you'd like a similar chatbot, you can contact him :)"
-      ]
+      ],
+      "buttons": [{ "type": "contact_me" }]
     }
   ]
 }
