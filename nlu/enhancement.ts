@@ -83,8 +83,6 @@ export const getSpicedUpAnswer = async (
       };
     });
 
-    console.log("Prompt: ", proompt);
-
     const messages = [
       {
         content: getInitialPrompt(),
