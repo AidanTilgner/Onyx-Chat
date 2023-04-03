@@ -132,6 +132,11 @@
         "does Aidan have a girlfriend?"
       ],
       "answers": ["Aidan is happily engaged"]
+    },
+    {
+      "intent": "describe_state.positive_with_inquiry_of_state",
+      "utterances": ["I am good, how about you?", "I am well, how about you?"],
+      "answers": ["I am doing well, thanks for asking!"]
     }
   ]
 }

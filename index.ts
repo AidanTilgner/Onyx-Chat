@@ -18,6 +18,7 @@ app.use(Express.urlencoded({ extended: true }));
 
 app.use(Express.static(path.join(__dirname, "public", "default")));
 if (process.env.NODE_ENV === "development") {
+  console.log("Training mode enabled");
   app.use("/train", Express.static(path.join(__dirname, "public", "training")));
 }
 
