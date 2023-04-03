@@ -5,3 +5,4 @@ db
 api-keys.json
 *.model.*
 build
+datastore/

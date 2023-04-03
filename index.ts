@@ -7,9 +7,12 @@ import { train } from "./nlu/index";
 import { logIP } from "./middleware/analysis";
 import { checkAPIKey } from "./middleware/auth";
 import path from "path";
+import "reflect-metadata";
+import { initializeDatabase } from "./database";
 
 config();
 train();
+initializeDatabase();
 
 const app = Express();
 
