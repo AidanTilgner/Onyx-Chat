@@ -5,6 +5,11 @@ import { detectAndActivateTriggers } from "../nlu/triggers";
 import { config } from "dotenv";
 import { createSession } from "../sessions";
 import { getRequesterSessionId } from "../utils/analysis";
+import {
+  addChatToConversationAndCreateIfNotExists,
+  getChatsFromSessionId,
+} from "../database/functions/conversations";
+import { enhanceChatIfNeccessary } from "../nlu/enhancement";
 
 config();
 const router = Router();
@@ -21,12 +26,38 @@ router.post("/", async (req, res) => {
   const session_id = getRequesterSessionId(req) || createSession().id;
 
   const response = await getNLUResponse(message);
-  const { intent } = response;
+  const { intent, answer } = response;
   detectAndActivateTriggers(intent, session_id);
+  await addChatToConversationAndCreateIfNotExists(
+    session_id,
+    message,
+    intent,
+    "user",
+    false
+  );
+
+  const { answer: botAnswer, enhanced } = await enhanceChatIfNeccessary(
+    answer,
+    intent,
+    session_id
+  );
+
+  await addChatToConversationAndCreateIfNotExists(
+    session_id,
+    botAnswer,
+    intent,
+    "assistant",
+    enhanced
+  );
+
+  const chats = await getChatsFromSessionId(session_id);
+
   const toSend = {
     message,
     session_id,
     ...response,
+    answer: botAnswer,
+    chats,
   };
 
   res.send(toSend);

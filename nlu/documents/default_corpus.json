@@ -29,17 +29,21 @@
         "I'm great, thanks for asking!",
         "I'm doing well, thanks for asking :)",
         "I'm well, thanks for asking"
-      ]
+      ],
+      "enhance": true
     },
     {
       "intent": "inquiry.work_history",
       "utterances": [
         "What is his work history?",
-        "What is Aidan's experience?"
+        "What is Aidan's experience?",
+        "Why should I hire you?",
+        "Why should I be interested in Aidan as a job candidate?"
       ],
       "answers": [
-        "Of course! Almost 2 years ago Aidan graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that he did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. Eventually, he accepted a full-time position at <a href=\"https://digital-strata.com/\">Digital Strata</a>, where he is currently employed as a web developer."
-      ]
+        "Of course! Almost 2 years ago Aidan graduated from a web development certificate program at <a href=\"https://brainstation.io/\">BrainStation</a>. Shortly after that he did freelance work on <a href=\"https://www.upwork.com/\">Upwork</a>. Eventually, he accepted a full-time position at <a href=\"https://digital-strata.com/\">Digital Strata</a>, where he is currently employed as a web developer. He is now a founder at <a href=\"https://vvibrant.dev/\">VVibrant Web Solutions</a>."
+      ],
+      "enhance": true
     },
     {
       "intent": "inquiry.current_workplace",
@@ -47,7 +51,8 @@
       "answers": [
         "I currently work at a company called <a href=\"https://digital-strata.com/\">Digital Strata</a> as a full-stack web developer.",
         "My current job is at <a href=\"https://digital-strata.com/\">Digital Strata</a> as a web developer."
-      ]
+      ],
+      "enhance": true
     },
     {
       "intent": "inquiry.work_experience",
@@ -55,7 +60,8 @@
       "answers": [
         "As a web developer, around 2 years, as a yo-yoer, around 6 months. I'm better at one than the other :)",
         "Aidan has worked as a software developer around 2 years. I also put hours into side <a href=\"https://www.aidantilgner.dev/projects\">projects</a> in order to hone my skills. See my <a href=\"https://github.com/AidanTilgner\">GitHub</a> for more details."
-      ]
+      ],
+      "enhance": true
     },
     {
       "intent": "inquiry.contact_directly",
@@ -82,7 +88,8 @@
     {
       "intent": "tell_about_user.name",
       "utterances": ["My name is @name", "I'm @name", "I am @name"],
-      "answers": ["Nice to meet you!", "Hi there, it's nice to meet you!"]
+      "answers": ["Nice to meet you!", "Hi there, it's nice to meet you!"],
+      "enhance": true
     },
     {
       "intent": "test",
@@ -108,12 +115,14 @@
         "Perfect!",
         "Nice!",
         "Great! Do you have any more questions for me?"
-      ]
+      ],
+      "enhance": true
     },
     {
       "intent": "describe_state.neutral",
       "utterances": ["I'm fine", "I'm alright", "I'm ok"],
-      "answers": ["Sounds good!", "Alright, how can I make it great?"]
+      "answers": ["Sounds good!", "Alright, how can I make it great?"],
+      "enhance": true
     },
     {
       "intent": "inquiry.current_favorite_color",
@@ -122,7 +131,8 @@
         "favorite color",
         "What is Aidans favorite color?"
       ],
-      "answers": ["His favorite color is blue."]
+      "answers": ["His favorite color is blue. Specifically #2256f2."],
+      "enhance": true
     },
     {
       "intent": "inquiry.relationship_stat",
@@ -131,12 +141,40 @@
         "is Aidan taken?",
         "does Aidan have a girlfriend?"
       ],
-      "answers": ["Aidan is happily engaged"]
+      "answers": ["Aidan is happily engaged"],
+      "enhance": true
     },
     {
-      "intent": "describe_state.positive_with_inquiry_of_state",
-      "utterances": ["I am good, how about you?", "I am well, how about you?"],
-      "answers": ["I am doing well, thanks for asking!"]
+      "intent": "inquiry.brainstation",
+      "utterances": ["what is brainstation?", "where did he go to school"],
+      "answers": [
+        "BrainStation is a coding bootcamp that teaches students a variety of skills. Aidan graduated from the web development certificate program."
+      ],
+      "enhance": true
+    },
+    {
+      "intent": "inquiry.upwork",
+      "utterances": ["what is upwork?", "what is upwork?"],
+      "answers": [
+        "Upwork is a freelancing platform that allows people to find work and hire freelancers."
+      ],
+      "enhance": true
+    },
+    {
+      "intent": "inquiry.digital_strata",
+      "utterances": ["what is digital strata?", "digital strata?"],
+      "answers": [
+        "Digital Strata is a digital forensics agency that specializes in web development and forensic collections on digital devices."
+      ],
+      "enhance": true
+    },
+    {
+      "intent": "inquiry.vvibrant",
+      "utterances": ["what is vvibrant?", "explain vvibrant"],
+      "answers": [
+        "VVibrant Web Solutions is a web development/design agency that specializes in web services for the psychedelic therapy industry in Oregon."
+      ],
+      "enhance": true
     }
   ]
 }
