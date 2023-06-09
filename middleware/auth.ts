@@ -31,11 +31,10 @@ export const checkAPIKey = (
 
   if (!key) {
     res.status(401).send({ message: "No API key provided." });
-    sendWarningEmail(
+    logger.log(
       "A request was made without an API key.",
-      getRequesterInfo(req)
+      JSON.stringify(getRequesterInfo(req))
     );
-    logger.log("A request was made without an API key.");
     return;
   }
 
@@ -46,11 +45,10 @@ export const checkAPIKey = (
     res.status(401).send({
       message: "No service specified. Please specify request origin service.",
     });
-    sendWarningEmail(
+    logger.log(
       "A request was made without a service specified.",
-      getRequesterInfo(req)
+      JSON.stringify(getRequesterInfo(req))
     );
-    logger.log("A request was made without a service specified.");
     return;
   }
 
